@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>EduFlow | Interactive Learning Prototype</title>
+  <!-- Google Fonts & simple reset for modern look -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free) for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f7fc;
+      color: #1a2c3e;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* container utility */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* header & nav */
+    .site-header {
+      background: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(2px);
+      background: rgba(255,255,255,0.96);
+    }
+
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 1rem 0;
+    }
+
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1E6F5C, #289672);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    .logo span {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: #5e7a93;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      color: #5e7a93;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #2c3e50;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #1E6F5C;
+      border-bottom: 2px solid #1E6F5C;
+      padding-bottom: 4px;
+    }
+
+    /* hero section */
+    .hero {
+      background: linear-gradient(120deg, #eef7f0, #e0f0ea);
+      padding: 3.5rem 0 4rem;
+      border-bottom: 1px solid #cbdde6;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2.5rem;
+      justify-content: space-between;
+    }
+
+    .hero-text {
+      flex: 1;
+    }
+
+    .hero-text h2 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #0f2b3b;
+      margin-bottom: 1rem;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+      color: #2c4b5f;
+      margin-bottom: 1.8rem;
+      max-width: 550px;
+    }
+
+    .cta-button {
+      background: #1E6F5C;
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .cta-button:hover {
+      background: #0f5545;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+    }
+
+    .hero-image {
+      flex: 1;
+      text-align: center;
+    }
+
+    .hero-image i {
+      font-size: 9rem;
+      color: #289672;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1));
+    }
+
+    /* features cards */
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 3rem 0 1.5rem;
+      color: #1a3b48;
+    }
+
+    .cards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.8rem;
+      width: 280px;
+      box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.1);
+      transition: all 0.25s;
+      text-align: center;
+      border: 1px solid #e2edf2;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 24px 36px -16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-icon {
+      font-size: 2.8rem;
+      color: #1E6F5C;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      color: #4a627a;
+      font-size: 0.95rem;
+    }
+
+    /* interactive demo section (prototype feature) */
+    .demo-section {
+      background: #ffffffea;
+      margin: 3rem 0;
+      border-radius: 32px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+      padding: 2rem;
+      border: 1px solid #cde3ec;
+    }
+
+    .demo-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-area {
+      background: #f9fefc;
+      border-radius: 24px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      border-left: 5px solid #1E6F5C;
+    }
+
+    .question-text {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: #f1f9f5;
+      padding: 0.7rem 1rem;
+      border-radius: 60px;
+      cursor: pointer;
+      transition: 0.1s;
+      border: 1px solid transparent;
+    }
+
+    .option:hover {
+      background: #e2f0ea;
+      border-color: #9bc2b3;
+    }
+
+    .option input {
+      accent-color: #1E6F5C;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .option label {
+      font-weight: 500;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .feedback {
+      margin: 1rem 0;
+      padding: 0.8rem;
+      border-radius: 24px;
+      font-weight: 500;
+    }
+
+    .feedback.correct {
+      background: #dff0e5;
+      color: #0a5e4a;
+    }
+
+    .feedback.wrong {
+      background: #ffe6e5;
+      color: #b13e3e;
+    }
+
+    .btn-submit {
+      background: #1E6F5C;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 600;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+
+    .btn-reset {
+      background: #d4e2e8;
+      color: #2c4e5e;
+      border: none;
+      padding: 0.7rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* resources list */
+    .resources-list {
+      background: #eef3f6;
+      border-radius: 28px;
+      padding: 1.8rem;
+      margin: 2rem 0;
+    }
+
+    .resources-list h3 {
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .resource-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      list-style: none;
+    }
+
+    .resource-items li {
+      background: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .resource-items li i {
+      color: #1E6F5C;
+    }
+
+    /* footer */
+    .footer {
+      background: #1a2f3c;
+      color: #cddfe6;
+      padding: 2rem 0;
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .footer a {
+      color: #aad0c4;
+      text-decoration: none;
+    }
+
+    /* responsive */
+    @media (max-width: 780px) {
+      .nav-bar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .hero-text h2 {
+        font-size: 2rem;
+      }
+      .hero-grid {
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero-text p {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="nav-bar">
+      <div class="logo">
+        <h1>EduFlow <span>⚡ prototype</span></h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Courses</a></li>
+        <li><a href="#">Prototype Lab</a></li>
+        <li><a href="#">Resources</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h2>Learn smarter,<br> prototype faster.</h2>
+        <p>An interactive educational prototype — built for modern learners. Explore concepts, test your knowledge, and see learning in action.</p>
+        <button class="cta-button" id="exploreBtn"><i class="fas fa-rocket"></i> Start exploring</button>
+      </div>
+      <div class="hero-image">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <!-- Core features cards -->
+    <h2 class="section-title">Why this prototype works</h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-code-branch"></i></div>
+        <h3>Static & Robust</h3>
+        <p>Pure HTML/CSS/JS — ready for GitHub Pages, zero backend complexity.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-brain"></i></div>
+        <h3>Interactive Quiz</h3>
+        <p>Test concepts with real-time feedback — engaging knowledge check.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
+        <h3>Fully responsive</h3>
+        <p>Designed for desktop, tablet, and mobile learning.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="fas fa-chalkboard-user"></i></div>
+        <h3>Education focused</h3>
+        <p>Curriculum-inspired UI, perfect for demos & MVPs.</p>
+      </div>
+    </div>
+
+    <!-- Interactive demo / micro quiz (prototype feature) -->
+    <div class="demo-section" id="interactiveDemo">
+      <div class="demo-title">
+        <i class="fas fa-lightbulb" style="color:#1E6F5C;"></i> 
+        <span>Interactive knowledge check</span>
+      </div>
+      <p>Try the interactive quiz below — this simulates a real educational tool feature. Each question reinforces core ideas.</p>
+      
+      <div class="quiz-area" id="quizContainer">
+        <div class="question-text" id="questionText">What is the main benefit of using static web pages for educational prototypes?</div>
+        <div class="options" id="optionsContainer">
+          <!-- dynamic options via JS but we can also prefill: but JS will populate -->
+        </div>
+        <div class="feedback" id="feedbackMsg"></div>
+        <div>
+          <button class="btn-submit" id="submitAnswer">Submit answer</button>
+          <button class="btn-reset" id="nextQuestionBtn">Next question ➡️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional resource / syllabus preview -->
+    <div class="resources-list">
+      <h3><i class="fas fa-book-open"></i> Prototype learning path</h3>
+      <ul class="resource-items">
+        <li><i class="fab fa-github"></i> GitHub Pages ready</li>
+        <li><i class="fas fa-css3-alt"></i> Modern CSS + Flex/Grid</li>
+        <li><i class="fas fa-js"></i> Vanilla JS interactions</li>
+        <li><i class="fas fa-users"></i> Student-centered design</li>
+        <li><i class="fas fa-chart-line"></i> Instant feedback loops</li>
+      </ul>
+      <p style="margin-top: 1.2rem; font-size: 0.9rem;">💡 This prototype can be extended with more modules, flashcards, or progress tracking — all static, all client-side.</p>
+    </div>
+
+    <!-- extra: explanation of project goal -->
+    <div style="background: #ffffff; border-radius: 24px; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid #dde9f0;">
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+        <i class="fas fa-code" style="font-size: 2.2rem; color:#1E6F5C;"></i>
+        <div>
+          <h3 style="margin-bottom: 0.3rem;">📁 Static deployment ready</h3>
+          <p>Clone or download this single HTML file → push to GitHub repo → enable Pages → your educational prototype goes live. No build steps or server required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p><i class="far fa-copyright"></i> 2026 EduFlow Prototype — Open education project. Built as a static HTML/CSS/JS showcase.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">Designed for learning & portfolio | <a href="#">GitHub Repository</a> | <a href="#">Prototype docs</a></p>
+  </div>
+</footer>
+
+<script>
+  // ---------- Educational Quiz logic (interactive prototype module) ----------
+  // Question bank with 3 questions around static web & education prototype theme
+  const questionBank = [
+    {
+      text: "What is the main benefit of using static web pages for educational prototypes?",
+      options: [
+        "Requires complex backend databases",
+        "Easy to host on GitHub Pages, fast and reliable",
+        "Needs constant server-side rendering",
+        "Only works with paid hosting"
+      ],
+      correct: 1,  // index 0-based
+      explanation: "Static pages are perfect for prototypes because they are lightweight, secure, and can be hosted for free on GitHub Pages without server logic."
+    },
+    {
+      text: "Which technology stack is used in this prototype?",
+      options: [
+        "React + Node.js + MongoDB",
+        "Python + Django",
+        "HTML5, CSS3, and Vanilla JavaScript",
+        "Ruby on Rails"
+      ],
+      correct: 2,
+      explanation: "This prototype is built with pure HTML/CSS/JS — no frameworks, making it super portable and educational."
+    },
+    {
+      text: "Why would an educator choose a static prototype like this?",
+      options: [
+        "Because it automatically tracks student analytics",
+        "It is simple to customize, runs in any browser, and demonstrates core ideas",
+        "Only works offline",
+        "It requires 3rd-party cookies"
+      ],
+      correct: 1,
+      explanation: "Static prototypes are great for demonstrating core ideas and UI flows without overhead. Easy to share and iterate."
+    }
+  ];
+  
+  let currentQuestionIndex = 0;
+  let currentSelectedValue = null;   // store selected option value (index)
+  let answered = false;              // lock after answer for current question until next
+  
+  // DOM elements
+  const questionTextEl = document.getElementById('questionText');
+  const optionsContainer = document.getElementById('optionsContainer');
+  const feedbackMsgDiv = document.getElementById('feedbackMsg');
+  const submitBtn = document.getElementById('submitAnswer');
+  const nextBtn = document.getElementById('nextQuestionBtn');
+  
+  // function to render current question from questionBank[currentQuestionIndex]
+  function renderQuestion() {
+    // reset answered state & clear feedback
+    answered = false;
+    currentSelectedValue = null;
+    feedbackMsgDiv.innerHTML = '';
+    feedbackMsgDiv.className = 'feedback';
+    // enable submit button style
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '1';
+    submitBtn.style.cursor = 'pointer';
+    
+    const q = questionBank[currentQuestionIndex];
+    questionTextEl.textContent = q.text;
+    
+    // generate fresh options HTML
+    let optionsHtml = '';
+    q.options.forEach((opt, idx) => {
+      const isChecked = (currentSelectedValue === idx) ? 'checked' : '';
+      optionsHtml += `
+        <div class="option" data-opt-index="${idx}">
+          <input type="radio" name="quizOption" id="opt_${idx}" value="${idx}" ${isChecked}>
+          <label for="opt_${idx}">${opt}</label>
+        </div>
+      `;
+    });
+    optionsContainer.innerHTML = optionsHtml;
+    
+    // attach event listeners to each radio group change
+    const radioInputs = document.querySelectorAll('input[name="quizOption"]');
+    radioInputs.forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        if (!answered) {
+          currentSelectedValue = parseInt(e.target.value);
+        } else {
+          // if already answered, prevent selection change
+          e.target.checked = false;
+          if(currentSelectedValue !== null) {
+            const correctRadio = document.querySelector(`input[name="quizOption"][value="${currentSelectedValue}"]`);
+            if(correctRadio) correctRadio.checked = true;
+          }
+          feedbackMsgDiv.innerHTML = '<i class="fas fa-lock"></i> You already answered this question. Click "Next question" to continue.';
+          feedbackMsgDiv.className = 'feedback wrong';
+        }
+      });
+    });
+    
+    // If previously selected value (though after reset it's null) keep sync, but fine.
+  }
+  
+  // function to evaluate answer
+  function evaluateAnswer() {
+    if (answered) {
+      feedbackMsgDiv.innerHTML = '<i class="fas fa-info-circle"></i> You already answered! Please move to next question.';
+      feedbackMsgDiv.className = 'feedback wrong';
+      return;
+    }
+    
+    if (currentSelectedValue === null || currentSelectedValue === undefined) {
+      feedbackMsgDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please select an option before submitting.';
+      feedbackMsgDiv.className = 'feedback wrong';
+      return;
+    }
+    
+    const currentQuestion = questionBank[currentQuestionIndex];
+    const isCorrect = (currentSelectedValue === currentQuestion.correct);
+    
+    if (isCorrect) {
+      feedbackMsgDiv.innerHTML = `<i class="fas fa-check-circle"></i> ✅ Correct! ${currentQuestion.explanation || 'Well done!'}`;
+      feedbackMsgDiv.className = 'feedback correct';
+    } else {
+      const correctAnswerText = currentQuestion.options[currentQuestion.correct];
+      feedbackMsgDiv.innerHTML = `<i class="fas fa-times-circle"></i> ❌ Not quite. Correct answer: "${correctAnswerText}". ${currentQuestion.explanation || 'Keep learning!'}`;
+      feedbackMsgDiv.className = 'feedback wrong';
+    }
+    
+    answered = true;
+    // disable radio buttons visually but keep them readable? we'll add style but keep disabled?
+    const allRadios = document.querySelectorAll('input[name="quizOption"]');
+    allRadios.forEach(radio => {
+      radio.disabled = true;
+    });
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.6';
+    submitBtn.style.cursor = 'default';
+  }
+  
+  // next question / cycle through questions
+  function nextQuestion() {
+    // move to next index, loop back to first if needed
+    currentQuestionIndex = (currentQuestionIndex + 1) % questionBank.length;
+    // re-render fresh state
+    renderQuestion();
+    // re-enable any disabled radio from previous (render already removes DOM and rebuilds)
+    // also ensure submit button is interactive
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '1';
+    submitBtn.style.cursor = 'pointer';
+    answered = false;
+    currentSelectedValue = null;
+  }
+  
+  // attach event listeners
+  submitBtn.addEventListener('click', evaluateAnswer);
+  nextBtn.addEventListener('click', nextQuestion);
+  
+  // initial render
+  renderQuestion();
+  
+  // Additional interactive feature: "Start exploring" button scrolls to demo section + playful alert
+  const exploreBtn = document.getElementById('exploreBtn');
+  if (exploreBtn) {
+    exploreBtn.addEventListener('click', () => {
+      const demoSection = document.getElementById('interactiveDemo');
+      if (demoSection) {
+        demoSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // subtle highlight effect
+        demoSection.style.transition = '0.3s';
+        demoSection.style.boxShadow = '0 0 0 3px #1E6F5C, 0 10px 25px -5px rgba(0,0,0,0.1)';
+        setTimeout(() => {
+          demoSection.style.boxShadow = '';
+        }, 1200);
+      }
+    });
+  }
+  
+  // optional: nav link "active" simulation for better prototype feel
+  const navLinks = document.querySelectorAll('.nav-links a');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      if(link.getAttribute('href') === '#') {
+        e.preventDefault();
+      }
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      if(link.innerText.includes('Home')) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (link.innerText.includes('Prototype Lab')) {
+        document.getElementById('interactiveDemo')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (link.innerText.includes('Resources')) {
+        document.querySelector('.resources-list')?.scrollIntoView({ behavior: 'smooth' });
+      } else if (link.innerText.includes('Courses')) {
+        alert('📚 Course modules coming soon — this is an interactive prototype!');
+      }
+    });
+  });
+  
+  // Set any additional dynamic copy for prototype consistency
+  console.log('EduFlow prototype ready — static, deployable on GitHub Pages');
+</script>
+</body>
+</html>
